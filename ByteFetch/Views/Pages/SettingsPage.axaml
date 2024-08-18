@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:fluentIcons="clr-namespace:FluentIcons.Avalonia.Fluent;assembly=FluentIcons.Avalonia.Fluent"
+			 xmlns:ui="using:FluentAvalonia.UI.Controls"
+			 xmlns:vm="using:ByteFetch.ViewModels"
+			 x:DataType="vm:SettingsPageViewModel"
+             x:Class="ByteFetch.SettingsPage">
+
+	<UserControl.DataContext>
+		<vm:SettingsPageViewModel/>
+	</UserControl.DataContext>
+
+	<StackPanel Margin="10">
+		<ui:SettingsExpander Header="App Theme"
+							IconSource="DarkTheme"
+							Description="Change the current app theme">
+
+			<ui:SettingsExpander.Footer>
+				<ComboBox MinWidth="150"
+						  SelectedItem="{Binding CurrentAppTheme}"
+						  ItemsSource="{Binding AppThemes}"/>
+			</ui:SettingsExpander.Footer>
+		</ui:SettingsExpander >
+		
+		<ui:SettingsExpander Header="Reset Window Size"
+							Description="Restore the window to its default dimensions"
+							 Margin="0 6">
+				<ui:SettingsExpander.IconSource>
+					<fluentIcons:SymbolIconSource Symbol="Window" IconVariant="Filled"/>
+				</ui:SettingsExpander.IconSource>
+			<ui:SettingsExpander.Footer>
+				<Button Content="Reset and Reload" Click="OnResetClick" Width="148"/>
+			</ui:SettingsExpander.Footer>
+		</ui:SettingsExpander >
+	</StackPanel>
+
+</UserControl>

@@ -1,0 +1,35 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"		
+		xmlns:ui="using:FluentAvalonia.UI.Controls"
+		xmlns:fluentIcons="clr-namespace:FluentIcons.Avalonia.Fluent;assembly=FluentIcons.Avalonia.Fluent"
+		xmlns:vm="using:ByteFetch.ViewModels"
+		x:DataType="vm:SettingsPageViewModel"
+        x:Class="ByteFetch.Views.MainWindow"
+		WindowStartupLocation="CenterScreen"
+        Icon="/Assets/ByteFetch.ico"
+		Title="ByteFetch">
+
+	<Window.DataContext>
+		<vm:SettingsPageViewModel />
+	</Window.DataContext>
+	
+	<ui:NavigationView OpenPaneLength="200"
+					   x:Name="NavView"
+					   CompactModeThresholdWidth="0">
+		<ui:NavigationView.MenuItems>
+			<!-- Download Page -->
+			<ui:NavigationViewItem Content="Download">
+				<ui:NavigationViewItem.IconSource>
+					<fluentIcons:SymbolIconSource
+                                FontSize="18"
+                                Symbol="Collections"/>
+				</ui:NavigationViewItem.IconSource>
+			</ui:NavigationViewItem>
+		</ui:NavigationView.MenuItems>
+		<ui:Frame x:Name="ContentFrame" />
+	</ui:NavigationView>
+	
+</Window>

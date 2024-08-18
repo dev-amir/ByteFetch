@@ -1,0 +1,81 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		xmlns:fluentIcons="clr-namespace:FluentIcons.Avalonia.Fluent;assembly=FluentIcons.Avalonia.Fluent"
+		xmlns:vm="clr-namespace:ByteFetch.ViewModels"
+		x:DataType="vm:NewDownloadDialogViewModel"
+		Width="365" Height="195"
+        MinWidth="365" MaxWidth="365"
+        MinHeight="195" MaxHeight="195"
+        WindowState="Normal"
+		WindowStartupLocation="CenterOwner"
+        x:Class="ByteFetch.Dialogs.NewDownloadDialog"
+		Icon="/Assets/ByteFetch.ico"
+        Title="New Download">
+
+	<Window.DataContext>
+		<vm:NewDownloadDialogViewModel />
+	</Window.DataContext>
+
+	<StackPanel Margin="10">
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			<!-- URL -->
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="305" />
+					<ColumnDefinition Width="auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBox Text="{Binding DownloadURL}" Watermark="Your URL..."/>
+				<Button Click="OnPasteClick" Height="32" Grid.Column="1">
+					<fluentIcons:SymbolIcon Symbol="Clipboard" FontSize="16" />
+				</Button>
+			</Grid>
+			<!-- Number Of Threads -->
+			<Grid Grid.Row="1" Margin="0 15">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="auto"/>
+				</Grid.ColumnDefinitions>
+				<Label Content="Threads:" VerticalAlignment="Center"/>
+				<NumericUpDown Value="{Binding NumberOfThreads}" Minimum="1" Maximum="16" Increment="1" Grid.Column="1" Margin="10 0" />
+				<Label Foreground="Gray" Content="(Min: 1, Max: 16)" Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+			</Grid>
+			<!-- Target Directory -->
+			<Grid Grid.Row="2" Margin="0 0 0 15">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="40" />
+					<ColumnDefinition Width="265" />
+					<ColumnDefinition Width="40"/>
+				</Grid.ColumnDefinitions>
+				<Label Content="Path:" VerticalAlignment="Center"/>
+				<TextBox Text="{Binding TargetDirectoryPath}" IsReadOnly="True" Grid.Column="1"/>
+				<Button Click="OnChangeFolderClick" Height="32" Grid.Column="2">
+					<fluentIcons:SymbolIcon Symbol="Folder" FontSize="16" />
+				</Button>
+			</Grid>
+			<!-- Start -->
+			<Grid Grid.Row="3" Width="335">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="255" />
+					<ColumnDefinition Width="auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock x:Name="NotificationTextBlock" Foreground="#b02038" Grid.Column="0" VerticalAlignment="Center"/>
+				<Button Width="86" HorizontalAlignment="Right" Click="OnStartClick" Grid.Column="1">
+					Start
+				</Button>
+			</Grid>
+		</Grid>
+	</StackPanel>
+
+</Window>

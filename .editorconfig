@@ -1,0 +1,32 @@
+[MainWindow.axaml.cs]
+dotnet_diagnostic.CS8600.severity = none
+dotnet_diagnostic.CS8602.severity = none
+dotnet_diagnostic.CS8622.severity = none
+
+[DownloadPage.axaml.cs]
+dotnet_diagnostic.CS8600.severity = none
+dotnet_diagnostic.CS8601.severity = none
+dotnet_diagnostic.CS8602.severity = none
+dotnet_diagnostic.CS8604.severity = none
+dotnet_diagnostic.CS8618.severity = none
+dotnet_diagnostic.CS8622.severity = none
+
+[SettingsPageViewModel.cs]
+dotnet_diagnostic.CS8602.severity = none
+
+[NewDownloadDialog.axaml.cs]
+dotnet_diagnostic.CS8600.severity = none
+dotnet_diagnostic.CS8601.severity = none
+dotnet_diagnostic.CS8602.severity = none
+dotnet_diagnostic.CS8618.severity = none
+
+[ConfigurationServices.cs]
+dotnet_diagnostic.CS8603.severity = none
+
+[CoreServices.cs]
+dotnet_diagnostic.CS4014.severity = none
+
+[DownloadInfo.cs]
+dotnet_diagnostic.CS8602.severity = none
+dotnet_diagnostic.CS8603.severity = none
+
