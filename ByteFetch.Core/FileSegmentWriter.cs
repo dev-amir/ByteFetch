@@ -1,11 +1,12 @@
 ﻿using ByteFetch.Shared;
 using System.Collections.Concurrent;
+
 namespace ByteFetch.Core;
 
-internal class FileSegmentWriter(DownloadModel downloadModel, string fileName, CancellationTokenSource cts)
+internal class FileSegmentWriter(DownloadModel downloadModel, string pathAndFileName, CancellationTokenSource cts)
 {
     private readonly ConcurrentQueue<(byte[] buffer, long start, int length)> _bufferQueue = new();
-    private readonly string _fileName = fileName;
+    private readonly string _pathAndFileName = pathAndFileName;
     private readonly DownloadModel _downloadModel = downloadModel;
     private readonly CancellationTokenSource _cts = cts;
 
@@ -14,7 +15,7 @@ internal class FileSegmentWriter(DownloadModel downloadModel, string fileName, C
 
     public async Task WriteManagerAsync()
     {
-        using var fileStream = new FileStream(_fileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+        using var fileStream = new FileStream(_pathAndFileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
         while (_downloadModel.DownloadSize > _downloadModel.StreamedSize && !_cts.Token.IsCancellationRequested)
         {
             await ProcessAndWrite(fileStream);

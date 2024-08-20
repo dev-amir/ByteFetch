@@ -35,7 +35,7 @@ internal class DataStream(DownloadModel downloadModel, DownloadStatus downloadSt
 
     private async Task StreamSegmentAsync(HttpClient client, long start, long end)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, _downloadModel.URL);
+        using var request = new HttpRequestMessage(HttpMethod.Get, _downloadModel.URI.AbsoluteUri);
         request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(start, end);
         using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
         response.EnsureSuccessStatusCode();

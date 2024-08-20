@@ -4,11 +4,12 @@ namespace ByteFetch.Shared;
 
 public partial class DownloadModel : ObservableObject
 {
-    public required string URL;
+    public required Uri URI;
     public required string DirectoryPath;
+    public required int NumberOfThreads;
+    public string? MediaType;
     private string? _readableDownloadSize;
     private double _sizeQuotient;
-    public required int NumberOfThreads;
     [ObservableProperty]
     private string? _name;
     [ObservableProperty]

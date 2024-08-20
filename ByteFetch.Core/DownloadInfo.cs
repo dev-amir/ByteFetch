@@ -1,25 +1,16 @@
 ﻿using ByteFetch.Shared;
-using System.Diagnostics;
 using System.Net.Http.Headers;
 
 namespace ByteFetch.Core;
 
-internal class DownloadInfo
+internal class DownloadInfo(DownloadStatus downloadStatus, string url)
 {
-    private readonly DownloadStatus _downloadStatus;
-    public readonly string URL;
-    public readonly string FileName;
+    private readonly DownloadStatus _downloadStatus = downloadStatus;
+    public readonly string URL = url;
     public long StreamedSize = 0;
     public long WritedSize = 0;
     public bool IsDownloadComplete = false;
     private HttpContentHeaders? _headers;
-
-    public DownloadInfo(DownloadStatus downloadStatus, string url)
-    {
-        _downloadStatus = downloadStatus;
-        URL = url;
-        FileName = Path.GetFileName(URL);
-    }
 
     public async Task GetHeaders()
     {
@@ -42,6 +33,8 @@ internal class DownloadInfo
         });
 
     public void ProcessHeaders(DownloadModel downloadModel)
-        => downloadModel.DownloadSize = (long)_headers.ContentLength!;
-
+    {
+        downloadModel.DownloadSize = (long)_headers.ContentLength!;
+        downloadModel.MediaType = _headers.ContentType.MediaType;
+    }
 }

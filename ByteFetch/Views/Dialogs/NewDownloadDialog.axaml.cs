@@ -63,7 +63,7 @@ public partial class NewDownloadDialog : Window
         if (IsHttpOrHttps(_viewModel.DownloadURL))
             this.Close(new DownloadModel
             {
-                URL = _viewModel.DownloadURL,
+                URI = new Uri(_viewModel.DownloadURL),
                 Name = "Gathering Info...",
                 NumberOfThreads = _viewModel.NumberOfThreads,
                 DirectoryPath = _viewModel.TargetDirectoryPath

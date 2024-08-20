@@ -1,4 +1,5 @@
 ﻿using ByteFetch.Shared;
+using MimeTypes;
 
 namespace ByteFetch.Core;
 
@@ -7,7 +8,7 @@ public class CoreServices
     private readonly CancellationTokenSource _cts = new();
     public async Task StartDownload(DownloadModel downloadModel, DownloadStatus downloadStatus)
     {
-        var info = new DownloadInfo(downloadStatus, downloadModel.URL);
+        var info = new DownloadInfo(downloadStatus, downloadModel.URI.AbsoluteUri);
         var config = new DownloadConfig(downloadModel);
 
         await info.GetHeaders();
@@ -16,7 +17,7 @@ public class CoreServices
 
         info.ProcessHeaders(downloadModel);
         config.CalculateSegmentsSizes(downloadModel);
-        downloadModel.Name = Path.GetFileName(downloadModel.URL);
+        downloadModel.Name = GenerateFileName(downloadModel);
 
         var segmentWriter = new FileSegmentWriter(downloadModel, Path.Combine(downloadModel.DirectoryPath, downloadModel.Name), _cts);
         var dataStream = new DataStream(downloadModel, downloadStatus, config, segmentWriter, _cts);
@@ -46,4 +47,7 @@ public class CoreServices
         downloadStatus.IsDownloadFailed = true;
         _cts.Cancel();
     }
+
+    private static string GenerateFileName(DownloadModel downloadModel)
+        => Path.GetFileNameWithoutExtension(downloadModel.URI.AbsolutePath) + MimeTypeMap.GetExtension(downloadModel.MediaType);
 }

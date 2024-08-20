@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ByteFetch.Shared\ByteFetch.Shared.csproj" />
   </ItemGroup>
 
