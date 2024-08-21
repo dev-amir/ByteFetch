@@ -49,5 +49,13 @@ public class CoreServices
     }
 
     private static string GenerateFileName(DownloadModel downloadModel)
-        => Path.GetFileNameWithoutExtension(downloadModel.URI.AbsolutePath) + MimeTypeMap.GetExtension(downloadModel.MediaType);
+    {
+        string fileNameExtension = Path.GetExtension(downloadModel.URI.AbsolutePath);
+        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(downloadModel.URI.AbsolutePath);
+        if (fileNameExtension.Length > 0)
+            return fileNameWithoutExtension + fileNameExtension;
+        fileNameExtension = MimeTypeMap.GetExtension(downloadModel.MediaType);
+        return fileNameWithoutExtension + fileNameExtension;
+
+    }
 }
