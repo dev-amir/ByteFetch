@@ -6,9 +6,9 @@
 		xmlns:fluentIcons="clr-namespace:FluentIcons.Avalonia.Fluent;assembly=FluentIcons.Avalonia.Fluent"
 		xmlns:vm="clr-namespace:ByteFetch.ViewModels"
 		x:DataType="vm:NewDownloadDialogViewModel"
-		Width="365" Height="195"
+		Width="365" Height="245"
         MinWidth="365" MaxWidth="365"
-        MinHeight="195" MaxHeight="195"
+        MinHeight="245" MaxHeight="245"
         WindowState="Normal"
 		WindowStartupLocation="CenterOwner"
         x:Class="ByteFetch.Dialogs.NewDownloadDialog"
@@ -27,7 +27,6 @@
 				<RowDefinition />
 				<RowDefinition />
 				<RowDefinition />
-				<RowDefinition />
 			</Grid.RowDefinitions>
 			<!-- URL -->
 			<Grid>
@@ -40,8 +39,17 @@
 					<fluentIcons:SymbolIcon Symbol="Clipboard" FontSize="16" />
 				</Button>
 			</Grid>
-			<!-- Number Of Threads -->
+			<!-- Rename -->
 			<Grid Grid.Row="1" Margin="0 15">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Label Content="Rename:" VerticalAlignment="Center" Margin="0 0 10 0"/>
+				<TextBox Text="{Binding Rename}" Watermark="Optional" Grid.Column="1"/>
+			</Grid>
+			<!-- Number Of Threads -->
+			<Grid Grid.Row="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="auto" />
 					<ColumnDefinition Width="*" />
@@ -52,7 +60,7 @@
 				<Label Foreground="Gray" Content="(Min: 1, Max: 16)" Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
 			</Grid>
 			<!-- Target Directory -->
-			<Grid Grid.Row="2" Margin="0 0 0 15">
+			<Grid Grid.Row="3" Margin="0 15">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="40" />
 					<ColumnDefinition Width="265" />
@@ -65,7 +73,7 @@
 				</Button>
 			</Grid>
 			<!-- Start -->
-			<Grid Grid.Row="3" Width="335">
+			<Grid Grid.Row="4" Width="335">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="255" />
 					<ColumnDefinition Width="auto"/>

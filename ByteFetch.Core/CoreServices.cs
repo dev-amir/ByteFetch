@@ -17,7 +17,7 @@ public class CoreServices
 
         info.ProcessHeaders(downloadModel);
         config.CalculateSegmentsSizes(downloadModel);
-        downloadModel.Name = GenerateFileName(downloadModel);
+        downloadModel.Name = GenerateFileName(downloadModel, downloadModel.Rename);
 
         var segmentWriter = new FileSegmentWriter(downloadModel, Path.Combine(downloadModel.DirectoryPath, downloadModel.Name), _cts);
         var dataStream = new DataStream(downloadModel, downloadStatus, config, segmentWriter, _cts);
@@ -48,10 +48,10 @@ public class CoreServices
         _cts.Cancel();
     }
 
-    private static string GenerateFileName(DownloadModel downloadModel)
+    private static string GenerateFileName(DownloadModel downloadModel, string rename)
     {
         string fileNameExtension = Path.GetExtension(downloadModel.URI.AbsolutePath);
-        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(downloadModel.URI.AbsolutePath);
+        string fileNameWithoutExtension = rename.Length > 0 ? rename : Path.GetFileNameWithoutExtension(downloadModel.URI.AbsolutePath);
         if (fileNameExtension.Length > 0)
             return fileNameWithoutExtension + fileNameExtension;
         fileNameExtension = MimeTypeMap.GetExtension(downloadModel.MediaType);

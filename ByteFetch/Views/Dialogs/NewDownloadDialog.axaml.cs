@@ -65,6 +65,7 @@ public partial class NewDownloadDialog : Window
             {
                 URI = new Uri(_viewModel.DownloadURL),
                 Name = "Gathering Info...",
+                Rename = _viewModel.Rename,
                 NumberOfThreads = _viewModel.NumberOfThreads,
                 DirectoryPath = _viewModel.TargetDirectoryPath
             });

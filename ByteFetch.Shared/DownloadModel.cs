@@ -13,6 +13,8 @@ public partial class DownloadModel : ObservableObject
     [ObservableProperty]
     private string? _name;
     [ObservableProperty]
+    private string? _rename;
+    [ObservableProperty]
     private string? _info;
     [ObservableProperty]
     private long _downloadSize;
