@@ -2,9 +2,9 @@
 
 namespace ByteFetch.Core;
 
-internal class DownloadConfig(DownloadModel downloadModel)
+internal class DownloadConfig(InProgressDownloadModel inProgressDownloadModel)
 {
-    public readonly int NumberOfThreads = downloadModel.NumberOfThreads;
+    public readonly int NumberOfThreads = inProgressDownloadModel.NumberOfThreads;
     public readonly int BufferSize = 1024;
 
     public long SegmentSize
@@ -18,9 +18,9 @@ internal class DownloadConfig(DownloadModel downloadModel)
         private set;
     }
 
-    public void CalculateSegmentsSizes(DownloadModel downloadModel)
+    public void CalculateSegmentsSizes(InProgressDownloadModel inProgressDownloadModel)
     {
-        SegmentSize = downloadModel.DownloadSize / NumberOfThreads;
-        LastSegmentSize = SegmentSize + downloadModel.DownloadSize % NumberOfThreads;
+        SegmentSize = inProgressDownloadModel.DownloadSize / NumberOfThreads;
+        LastSegmentSize = SegmentSize + inProgressDownloadModel.DownloadSize % NumberOfThreads;
     }
 }

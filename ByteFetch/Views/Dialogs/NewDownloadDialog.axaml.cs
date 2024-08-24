@@ -61,7 +61,7 @@ public partial class NewDownloadDialog : Window
     private void OnStartClick(object sender, RoutedEventArgs e)
     {
         if (IsHttpOrHttps(_viewModel.DownloadURL))
-            this.Close(new DownloadModel
+            this.Close(new InProgressDownloadModel
             {
                 URI = new Uri(_viewModel.DownloadURL),
                 Name = "Gathering Info...",

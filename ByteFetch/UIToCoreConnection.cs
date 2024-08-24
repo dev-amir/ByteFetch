@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ByteFetch;
 
-internal class UIToCoreConnection(DownloadPageViewModel viewModel, DownloadModel downloadModel, DownloadStatus downloadStatus)
+internal class UIToCoreConnection(DownloadPageViewModel viewModel, InProgressDownloadModel inProgressDownloadModel, DownloadStatus downloadStatus)
 {
     public readonly CoreServices Bridge = new CoreServices();
     private readonly DownloadPageViewModel _viewModel = viewModel;
     private readonly DownloadStatus _downloadStatus = downloadStatus;
-    private readonly DownloadModel _downloadModel = downloadModel;
+    private readonly InProgressDownloadModel _inProgressDownloadModel = inProgressDownloadModel;
     private readonly int _timerSeconds = 5;
     public void IsFailed_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -19,7 +19,19 @@ internal class UIToCoreConnection(DownloadPageViewModel viewModel, DownloadModel
             FailedMessage("Failed to Request Headers");
         else if (e.PropertyName == nameof(_downloadStatus.IsDownloadFailed))
             FailedMessage("Failed to Download");
+    }
 
+    public void IsFinished_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(_downloadStatus.IsFinished))
+        {
+            var finishedDownloadModel = new FinishedDownloadModel {
+                Name = _inProgressDownloadModel.Name,
+                Info = ByteSizeFormatter.GetReadableByteSize(_inProgressDownloadModel.DownloadSize)
+            };
+            _viewModel.InProgressDownloads.Remove(_inProgressDownloadModel);
+            _viewModel.FinishedDownloads.Add(finishedDownloadModel);
+        }
     }
 
     private void FailedMessage(string baseMessage)
@@ -29,10 +41,10 @@ internal class UIToCoreConnection(DownloadPageViewModel viewModel, DownloadModel
         {
             while (_timerSeconds > currentSecond)
             {
-                _downloadModel.Name = $"{baseMessage}, Removing in {_timerSeconds - currentSecond++} second(s)";
+                _inProgressDownloadModel.Name = $"{baseMessage}, Removing in {_timerSeconds - currentSecond++} second(s)";
                 await Task.Delay(1000);
             }
-            _viewModel.AllItems.Remove(_downloadModel);
+            _viewModel.InProgressDownloads.Remove(_inProgressDownloadModel);
         });
     }
 }

@@ -2,10 +2,10 @@
 
 namespace ByteFetch.Core;
 
-internal class DataStream(DownloadModel downloadModel, DownloadStatus downloadStatus, DownloadConfig config, FileSegmentWriter segmentWriter, CancellationTokenSource cts)
+internal class DataStream(InProgressDownloadModel inProgressDownloadModel, DownloadStatus downloadStatus, DownloadConfig config, FileSegmentWriter segmentWriter, CancellationTokenSource cts)
 {
     private readonly DownloadStatus _downloadStatus = downloadStatus;
-    private readonly DownloadModel _downloadModel = downloadModel;
+    private readonly InProgressDownloadModel _inProgressDownloadModel = inProgressDownloadModel;
     private readonly DownloadConfig _config = config;
     private readonly FileSegmentWriter _segmentWriter = segmentWriter;
     private readonly CancellationTokenSource _cts = cts;
@@ -19,7 +19,7 @@ internal class DataStream(DownloadModel downloadModel, DownloadStatus downloadSt
             for (var i = 0; i < _config.NumberOfThreads; i++)
             {
                 var start = i * _config.SegmentSize;
-                var end = _config.NumberOfThreads - 1 == i ? _downloadModel.DownloadSize - 1 : start + _config.SegmentSize - 1;
+                var end = _config.NumberOfThreads - 1 == i ? _inProgressDownloadModel.DownloadSize - 1 : start + _config.SegmentSize - 1;
                 streamTasks[i] = StreamSegmentAsync(client, start, end);
             }
             await Task.WhenAll(streamTasks);
@@ -35,7 +35,7 @@ internal class DataStream(DownloadModel downloadModel, DownloadStatus downloadSt
 
     private async Task StreamSegmentAsync(HttpClient client, long start, long end)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, _downloadModel.URI.AbsoluteUri);
+        using var request = new HttpRequestMessage(HttpMethod.Get, _inProgressDownloadModel.URI.AbsoluteUri);
         request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(start, end);
         using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
         response.EnsureSuccessStatusCode();
@@ -45,7 +45,7 @@ internal class DataStream(DownloadModel downloadModel, DownloadStatus downloadSt
         while ((bytesRead = await responseStream.ReadAsync(buffer, _cts.Token)) > 0)
         {
             _segmentWriter.AddBuffer((byte[])buffer.Clone(), start, bytesRead);
-            _downloadModel.StreamedSize += bytesRead;
+            _inProgressDownloadModel.StreamedSize += bytesRead;
             start += bytesRead;
         }
     }

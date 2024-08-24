@@ -22,14 +22,15 @@ public partial class DownloadPage : UserControl
         if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var newDownloadDialog = new NewDownloadDialog();
-            var downloadModel = await newDownloadDialog.ShowDialog<DownloadModel>(desktop.MainWindow);
-            if (downloadModel == null) return;
+            var inProgressDownloadModel = await newDownloadDialog.ShowDialog<InProgressDownloadModel>(desktop.MainWindow);
+            if (inProgressDownloadModel == null) return;
 
-            _viewModel.AllItems.Insert(0, downloadModel);
+            _viewModel.InProgressDownloads.Insert(0, inProgressDownloadModel);
             var downloadStatus = new DownloadStatus();
-            var connection = new UIToCoreConnection(_viewModel, downloadModel, downloadStatus);
+            var connection = new UIToCoreConnection(_viewModel, inProgressDownloadModel, downloadStatus);
             downloadStatus.PropertyChanged += connection.IsFailed_PropertyChanged;
-            await connection.Bridge.StartDownload(downloadModel, downloadStatus);
+            downloadStatus.PropertyChanged += connection.IsFinished_PropertyChanged;
+            await connection.Bridge.StartDownload(inProgressDownloadModel, downloadStatus);
         }
     }
 }

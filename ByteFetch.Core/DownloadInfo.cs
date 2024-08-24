@@ -32,9 +32,9 @@ internal class DownloadInfo(DownloadStatus downloadStatus, string url)
                 return task.Result;
         });
 
-    public void ProcessHeaders(DownloadModel downloadModel)
+    public void ProcessHeaders(InProgressDownloadModel inProgressDownloadModel)
     {
-        downloadModel.DownloadSize = (long)_headers.ContentLength!;
-        downloadModel.MediaType = _headers.ContentType.MediaType;
+        inProgressDownloadModel.DownloadSize = (long)_headers.ContentLength!;
+        inProgressDownloadModel.MediaType = _headers.ContentType.MediaType;
     }
 }

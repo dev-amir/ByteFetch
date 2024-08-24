@@ -6,55 +6,55 @@ namespace ByteFetch.Core;
 public class CoreServices
 {
     private readonly CancellationTokenSource _cts = new();
-    public async Task StartDownload(DownloadModel downloadModel, DownloadStatus downloadStatus)
+    public async Task StartDownload(InProgressDownloadModel inProgressDownloadModel, DownloadStatus downloadStatus)
     {
-        var info = new DownloadInfo(downloadStatus, downloadModel.URI.AbsoluteUri);
-        var config = new DownloadConfig(downloadModel);
+        var info = new DownloadInfo(downloadStatus, inProgressDownloadModel.URI.AbsoluteUri);
+        var config = new DownloadConfig(inProgressDownloadModel);
 
         await info.GetHeaders();
         if (downloadStatus.IsRequestHeadersFailed)
             return;
 
-        info.ProcessHeaders(downloadModel);
-        config.CalculateSegmentsSizes(downloadModel);
-        downloadModel.Name = GenerateFileName(downloadModel, downloadModel.Rename);
+        info.ProcessHeaders(inProgressDownloadModel);
+        config.CalculateSegmentsSizes(inProgressDownloadModel);
+        inProgressDownloadModel.Name = GenerateFileName(inProgressDownloadModel, inProgressDownloadModel.Rename);
 
-        var segmentWriter = new FileSegmentWriter(downloadModel, Path.Combine(downloadModel.DirectoryPath, downloadModel.Name), _cts);
-        var dataStream = new DataStream(downloadModel, downloadStatus, config, segmentWriter, _cts);
+        var segmentWriter = new FileSegmentWriter(inProgressDownloadModel, Path.Combine(inProgressDownloadModel.DirectoryPath, inProgressDownloadModel.Name), _cts);
+        var dataStream = new DataStream(inProgressDownloadModel, downloadStatus, config, segmentWriter, _cts);
 
-        CheckIfDownloadFailed(downloadModel, downloadStatus);
+        CheckIfDownloadFailed(inProgressDownloadModel, downloadStatus);
         await dataStream.Start();
 
         if (downloadStatus.IsDownloadFailed)
-            downloadModel.Info = null;
+            inProgressDownloadModel.Info = null;
         else
-            downloadModel.Info = ByteSizeFormatter.GetReadableByteSize(downloadModel.DownloadSize);
+            downloadStatus.IsFinished = true;
     }
 
-    private async Task CheckIfDownloadFailed(DownloadModel downloadModel, DownloadStatus downloadStatus)
+    private async Task CheckIfDownloadFailed(InProgressDownloadModel inProgressDownloadModel, DownloadStatus downloadStatus)
     {
         long tempSize;
         do
         {
-            tempSize = downloadModel.StreamedSize;
+            tempSize = inProgressDownloadModel.StreamedSize;
             await Task.Delay(5000);
             // Successful
-            if (downloadModel.StreamedSize == downloadModel.DownloadSize)
+            if (inProgressDownloadModel.StreamedSize == inProgressDownloadModel.DownloadSize)
                 return;
 
-        } while (tempSize < downloadModel.StreamedSize || downloadModel.StreamedSize == 0);
+        } while (tempSize < inProgressDownloadModel.StreamedSize || inProgressDownloadModel.StreamedSize == 0);
         // Failed 
         downloadStatus.IsDownloadFailed = true;
         _cts.Cancel();
     }
 
-    private static string GenerateFileName(DownloadModel downloadModel, string rename)
+    private static string GenerateFileName(InProgressDownloadModel inProgressDownloadModel, string rename)
     {
-        string fileNameExtension = Path.GetExtension(downloadModel.URI.AbsolutePath);
-        string fileNameWithoutExtension = rename.Length > 0 ? rename : Path.GetFileNameWithoutExtension(downloadModel.URI.AbsolutePath);
+        string fileNameExtension = Path.GetExtension(inProgressDownloadModel.URI.AbsolutePath);
+        string fileNameWithoutExtension = rename.Length > 0 ? rename : Path.GetFileNameWithoutExtension(inProgressDownloadModel.URI.AbsolutePath);
         if (fileNameExtension.Length > 0)
             return fileNameWithoutExtension + fileNameExtension;
-        fileNameExtension = MimeTypeMap.GetExtension(downloadModel.MediaType);
+        fileNameExtension = MimeTypeMap.GetExtension(inProgressDownloadModel.MediaType);
         return fileNameWithoutExtension + fileNameExtension;
 
     }

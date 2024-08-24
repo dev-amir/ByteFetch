@@ -33,4 +33,13 @@
     <ProjectReference Include="..\ByteFetch.Core\ByteFetch.Core.csproj" />
     <ProjectReference Include="..\ByteFetch.Shared\ByteFetch.Shared.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Templates\FinishedDownloadsTemplate.axaml.cs">
+      <DependentUpon>FinishedDownloadsTemplate.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Templates\InProgressDownloadsTemplate.axaml.cs">
+      <DependentUpon>InProgressDownloadsTemplate.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

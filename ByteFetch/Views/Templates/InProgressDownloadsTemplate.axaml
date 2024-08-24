@@ -7,9 +7,9 @@
 			 xmlns:fluentIcons="clr-namespace:FluentIcons.Avalonia.Fluent;assembly=FluentIcons.Avalonia.Fluent"
 			 xmlns:vm="using:ByteFetch.ViewModels"
 			 x:DataType="vm:DownloadPageViewModel"
-             x:Class="ByteFetch.Templates.AllDownloadsTemplate">
+             x:Class="ByteFetch.Templates.InProgressDownloadsTemplate">
 	
-	<ItemsControl ItemsSource="{Binding AllItems}" Margin="0 10">
+	<ItemsControl ItemsSource="{Binding InProgressDownloads}">
 		<ItemsControl.ItemTemplate>
 			<DataTemplate>
 				<ui:SettingsExpander Header="{Binding Name}" Margin="0 3"

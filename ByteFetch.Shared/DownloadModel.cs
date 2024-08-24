@@ -2,7 +2,7 @@
 
 namespace ByteFetch.Shared;
 
-public partial class DownloadModel : ObservableObject
+public partial class InProgressDownloadModel : ObservableObject
 {
     public required Uri URI;
     public required string DirectoryPath;
@@ -39,4 +39,12 @@ public partial class DownloadModel : ObservableObject
 
     partial void OnWritedSizeChanged(long value)
         => WritedPercent = (int)(_sizeQuotient * value);
+}
+
+public partial class FinishedDownloadModel : ObservableObject
+{
+    [ObservableProperty]
+    private string? _name;
+    [ObservableProperty]
+    private string? _info;
 }

@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace ByteFetch.Templates;
 
-public partial class AllDownloadsTemplate : UserControl
+public partial class InProgressDownloadsTemplate : UserControl
 {
-    public AllDownloadsTemplate()
+    public InProgressDownloadsTemplate()
     {
         InitializeComponent();
     }

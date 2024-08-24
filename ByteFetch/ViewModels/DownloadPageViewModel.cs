@@ -5,5 +5,6 @@ namespace ByteFetch.ViewModels;
 
 internal class DownloadPageViewModel
 {
-    public ObservableCollection<DownloadModel> AllItems { get; } = [];
+    public ObservableCollection<InProgressDownloadModel> InProgressDownloads { get; } = [];
+    public ObservableCollection<FinishedDownloadModel> FinishedDownloads { get; } = [];
 }

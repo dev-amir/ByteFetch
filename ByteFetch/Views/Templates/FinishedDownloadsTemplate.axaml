@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:ui="using:FluentAvalonia.UI.Controls"
+			 xmlns:fluentIcons="clr-namespace:FluentIcons.Avalonia.Fluent;assembly=FluentIcons.Avalonia.Fluent"
+			 xmlns:vm="using:ByteFetch.ViewModels"
+			 x:DataType="vm:DownloadPageViewModel"
+             x:Class="ByteFetch.Templates.FinishedDownloadsTemplate">
+	
+	<ItemsControl ItemsSource="{Binding FinishedDownloads}">
+		<ItemsControl.ItemTemplate>
+			<DataTemplate>
+				<ui:SettingsExpander Header="{Binding Name}" Margin="0 3"
+							 Description="{Binding Info}">
+					<ui:SettingsExpander.IconSource>
+						<fluentIcons:SymbolIconSource Symbol="Board"/>
+					</ui:SettingsExpander.IconSource>
+				</ui:SettingsExpander >
+			</DataTemplate>
+		</ItemsControl.ItemTemplate>
+	</ItemsControl>
+</UserControl>
