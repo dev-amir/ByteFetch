@@ -30,7 +30,7 @@ internal class UIToCoreConnection(DownloadPageViewModel viewModel, InProgressDow
                 Info = ByteSizeFormatter.GetReadableByteSize(_inProgressDownloadModel.DownloadSize)
             };
             _viewModel.InProgressDownloads.Remove(_inProgressDownloadModel);
-            _viewModel.FinishedDownloads.Add(finishedDownloadModel);
+            _viewModel.FinishedDownloads.Insert(0, finishedDownloadModel);
         }
     }
 

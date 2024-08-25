@@ -14,8 +14,8 @@
 		<vm:DownloadPageViewModel/>
 	</UserControl.DataContext>
 
-	<Grid>
-		<TabControl Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch">
+	<Grid Margin="5 0 0 0">
+		<TabControl>
 			<TabItem Header="All">
 				<ScrollViewer>
 					<Grid Margin="0 0 5 0">
