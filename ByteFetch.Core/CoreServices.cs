@@ -55,7 +55,11 @@ public class CoreServices
         if (fileNameExtension.Length > 0)
             return fileNameWithoutExtension + fileNameExtension;
         fileNameExtension = MimeTypeMap.GetExtension(inProgressDownloadModel.MediaType);
-        return fileNameWithoutExtension + fileNameExtension;
-
+        if (fileNameWithoutExtension.Length > 0)
+            return fileNameWithoutExtension + fileNameExtension;
+        fileNameWithoutExtension = Path.GetFileNameWithoutExtension(inProgressDownloadModel.URI.AbsolutePath.TrimEnd('/'));
+        if (fileNameWithoutExtension.Length > 0)
+            return fileNameWithoutExtension + fileNameExtension;
+        return inProgressDownloadModel.URI.Host + fileNameExtension;
     }
 }
