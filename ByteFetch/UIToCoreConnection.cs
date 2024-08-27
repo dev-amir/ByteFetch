@@ -16,9 +16,11 @@ internal class UIToCoreConnection(DownloadPageViewModel viewModel, InProgressDow
     public void IsFailed_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(_downloadStatus.IsRequestHeadersFailed))
-            FailedMessage("Failed to Request Headers");
+            ShowFailedMessageAndRemove("Failed to Request Headers");
+        if (e.PropertyName == nameof(_downloadStatus.IsFileCreationFailed))
+            ShowFailedMessageAndRemove("Failed to Create File");
         else if (e.PropertyName == nameof(_downloadStatus.IsDownloadFailed))
-            FailedMessage("Failed to Download");
+            ShowFailedMessageAndRemove("Failed to Download");
     }
 
     public void IsFinished_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -34,7 +36,7 @@ internal class UIToCoreConnection(DownloadPageViewModel viewModel, InProgressDow
         }
     }
 
-    private void FailedMessage(string baseMessage)
+    private void ShowFailedMessageAndRemove(string baseMessage)
     {
         int currentSecond = 0;
         Task.Run(async () =>
