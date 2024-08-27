@@ -26,6 +26,13 @@ public partial class MainWindow : Window
         _resizeWindowDebounceTimer.Elapsed += OnResizeWindowsDebounceTimerElapsed;
         this.SizeChanged += OnSizeChanged;
 
+        string saveLocation = ConfigurationServices.Get("SaveLocation");
+        if (saveLocation == "none")
+        {
+            saveLocation = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+            ConfigurationServices.Update("SaveLocation", saveLocation);
+        }
+
         NavView.SelectionChanged += OnNavigationSelectionChanged;
         NavView.SelectedItem = NavView.MenuItems[0];
         ContentFrame.Navigate(typeof(DownloadPage));

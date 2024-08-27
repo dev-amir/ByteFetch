@@ -47,13 +47,13 @@ public partial class NewDownloadDialog : Window
             var storageProvider = topLevel.StorageProvider;
             var folderResult = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
             {
-                Title = "Select a Folder",
+                Title = "Select Save Location",
                 AllowMultiple = false,
             });
             if (folderResult.Count > 0)
             {
                 var selectedFolder = folderResult[0];
-                _viewModel.TargetDirectoryPath = selectedFolder.Path.LocalPath;
+                _viewModel.SaveLocation = selectedFolder.Path.LocalPath;
             }
         }
     }
@@ -67,7 +67,7 @@ public partial class NewDownloadDialog : Window
                 Name = "Gathering Info...",
                 Rename = _viewModel.Rename,
                 NumberOfThreads = _viewModel.NumberOfThreads,
-                DirectoryPath = _viewModel.TargetDirectoryPath
+                DirectoryPath = _viewModel.SaveLocation
             });
         ShowNotification("URL Must Start With HTTP/HTTPS");
     }

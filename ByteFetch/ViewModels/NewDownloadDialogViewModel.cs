@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
+﻿using ByteFetch.Config;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ByteFetch.ViewModels;
 
@@ -13,7 +13,6 @@ public partial class NewDownloadDialogViewModel : ViewModelBase
     [ObservableProperty]
     private int _numberOfThreads = 4;
     [ObservableProperty]
-    private string _targetDirectoryPath = GetDownloadFolderPath();
-    static string GetDownloadFolderPath()
-        => System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
+    private string _saveLocation = ConfigurationServices.Get("SaveLocation");
+    
 }

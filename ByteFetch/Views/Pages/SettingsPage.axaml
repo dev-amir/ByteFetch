@@ -15,8 +15,8 @@
 
 	<StackPanel Margin="10">
 		<ui:SettingsExpander Header="App Theme"
-							IconSource="DarkTheme"
-							Description="Change the current app theme">
+							 IconSource="DarkTheme"
+							 Description="Change the current app theme">
 
 			<ui:SettingsExpander.Footer>
 				<ComboBox MinWidth="150"
@@ -26,13 +26,34 @@
 		</ui:SettingsExpander >
 		
 		<ui:SettingsExpander Header="Reset Window Size"
-							Description="Restore the window to its default dimensions"
+							 Description="Restore the window to its default dimensions"
 							 Margin="0 6">
 				<ui:SettingsExpander.IconSource>
 					<fluentIcons:SymbolIconSource Symbol="Window" IconVariant="Filled"/>
 				</ui:SettingsExpander.IconSource>
 			<ui:SettingsExpander.Footer>
-				<Button Content="Reset and Reload" Click="OnResetClick" Width="148"/>
+				<Button Content="Reset and Reload" Click="OnResetWindowSizeClick" Width="150"/>
+			</ui:SettingsExpander.Footer>
+		</ui:SettingsExpander >
+
+		<ui:SettingsExpander Header="Change Default Save Location"
+							 Description="{Binding SaveLocation}">
+			<ui:SettingsExpander.IconSource>
+				<fluentIcons:SymbolIconSource Symbol="Folder"/>
+			</ui:SettingsExpander.IconSource>
+			<ui:SettingsExpander.Footer>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<Button  Click="OnChangeSaveLocationClick" Width="96" Height="32" Margin="0 0 10 0">
+						<fluentIcons:SymbolIcon Symbol="FolderOpen"/>
+					</Button>
+					<Button Click="OnResetSaveLocationClick" Height="32" Grid.Column="1">
+						<fluentIcons:SymbolIcon Symbol="ArrowCounterclockwise"/>
+					</Button>
+				</Grid>
 			</ui:SettingsExpander.Footer>
 		</ui:SettingsExpander >
 	</StackPanel>

@@ -42,7 +42,7 @@
 			<!-- Rename -->
 			<Grid Grid.Row="1" Margin="0 15">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="70" />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 				<Label Content="Rename:" VerticalAlignment="Center" Margin="0 0 10 0"/>
@@ -51,23 +51,23 @@
 			<!-- Number Of Threads -->
 			<Grid Grid.Row="2">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="auto" />
+					<ColumnDefinition Width="70" />
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="auto"/>
 				</Grid.ColumnDefinitions>
 				<Label Content="Threads:" VerticalAlignment="Center"/>
-				<NumericUpDown Value="{Binding NumberOfThreads}" Minimum="1" Maximum="16" Increment="1" Grid.Column="1" Margin="10 0" />
+				<NumericUpDown Value="{Binding NumberOfThreads}" Minimum="1" Maximum="16" Increment="1" Grid.Column="1" Margin="0 0 10 0" />
 				<Label Foreground="Gray" Content="(Min: 1, Max: 16)" Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
 			</Grid>
-			<!-- Target Directory -->
+			<!-- Save Location -->
 			<Grid Grid.Row="3" Margin="0 15">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="40" />
-					<ColumnDefinition Width="265" />
+					<ColumnDefinition Width="70" />
+					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="40"/>
 				</Grid.ColumnDefinitions>
-				<Label Content="Path:" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding TargetDirectoryPath}" IsReadOnly="True" Grid.Column="1"/>
+				<Label Content="Location:" VerticalAlignment="Center"/>
+				<TextBox Text="{Binding SaveLocation}" IsReadOnly="True" Grid.Column="1"/>
 				<Button Click="OnChangeFolderClick" Height="32" Grid.Column="2">
 					<fluentIcons:SymbolIcon Symbol="Folder" FontSize="16" />
 				</Button>

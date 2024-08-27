@@ -12,9 +12,12 @@ public partial class SettingsPageViewModel : ViewModelBase
     public string[] AppThemes { get; } = [_dark, _light];
     [ObservableProperty]
     private string _currentAppTheme;
+    [ObservableProperty]
+    private string _saveLocation;
     public SettingsPageViewModel()
     {
         CurrentAppTheme = ConfigurationServices.Get("Theme");
+        SaveLocation = ConfigurationServices.Get("SaveLocation");
     }
 
     partial void OnCurrentAppThemeChanged(string value)
@@ -31,4 +34,5 @@ public partial class SettingsPageViewModel : ViewModelBase
             _dark => ThemeVariant.Dark,
             _ => null
         };
+
 }
