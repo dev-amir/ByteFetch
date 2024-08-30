@@ -67,6 +67,7 @@ public partial class NewDownloadDialog : Window
                 Name = "Gathering Info...",
                 Rename = _viewModel.Rename,
                 NumberOfThreads = _viewModel.NumberOfThreads,
+                MinWriteSize = _viewModel.MinWriteSize * 1024,
                 DirectoryPath = _viewModel.SaveLocation
             });
         ShowNotification("URL Must Start With HTTP/HTTPS");

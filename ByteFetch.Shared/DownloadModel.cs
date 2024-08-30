@@ -7,6 +7,7 @@ public partial class InProgressDownloadModel : ObservableObject
     public required Uri URI;
     public required string DirectoryPath;
     public required int NumberOfThreads;
+    public required int MinWriteSize;
     public string? MediaType;
     private string? _readableDownloadSize;
     private double _sizeQuotient;

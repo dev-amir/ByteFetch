@@ -26,7 +26,9 @@ public class CoreServices
         var dataStream = new DataStream(inProgressDownloadModel, downloadStatus, config, segmentWriter, _cts);
 
         CheckIfDownloadFailed(inProgressDownloadModel, downloadStatus);
+        var writeManagerTask = Task.Run(() => segmentWriter.WriteManagerAsync());
         await dataStream.Start();
+        await writeManagerTask;
 
         if (downloadStatus.IsDownloadFailed)
             inProgressDownloadModel.Info = null;

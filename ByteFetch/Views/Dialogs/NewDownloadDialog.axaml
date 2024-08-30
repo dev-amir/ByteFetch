@@ -6,9 +6,9 @@
 		xmlns:fluentIcons="clr-namespace:FluentIcons.Avalonia.Fluent;assembly=FluentIcons.Avalonia.Fluent"
 		xmlns:vm="clr-namespace:ByteFetch.ViewModels"
 		x:DataType="vm:NewDownloadDialogViewModel"
-		Width="365" Height="245"
+		Width="365" Height="290"
         MinWidth="365" MaxWidth="365"
-        MinHeight="245" MaxHeight="245"
+        MinHeight="290" MaxHeight="290"
         WindowState="Normal"
 		WindowStartupLocation="CenterOwner"
         x:Class="ByteFetch.Dialogs.NewDownloadDialog"
@@ -22,6 +22,7 @@
 	<StackPanel Margin="10">
 		<Grid>
 			<Grid.RowDefinitions>
+				<RowDefinition />
 				<RowDefinition />
 				<RowDefinition />
 				<RowDefinition />
@@ -42,7 +43,7 @@
 			<!-- Rename -->
 			<Grid Grid.Row="1" Margin="0 15">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="70" />
+					<ColumnDefinition Width="80" />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 				<Label Content="Rename:" VerticalAlignment="Center" Margin="0 0 10 0"/>
@@ -51,18 +52,33 @@
 			<!-- Number Of Threads -->
 			<Grid Grid.Row="2">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="70" />
+					<ColumnDefinition Width="80" />
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="auto"/>
 				</Grid.ColumnDefinitions>
 				<Label Content="Threads:" VerticalAlignment="Center"/>
-				<NumericUpDown Value="{Binding NumberOfThreads}" Minimum="1" Maximum="16" Increment="1" Grid.Column="1" Margin="0 0 10 0" />
-				<Label Foreground="Gray" Content="(Min: 1, Max: 16)" Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+				<NumericUpDown Value="{Binding NumberOfThreads}" Minimum="1" Maximum="64" Increment="1" Grid.Column="1" />
+				<Button ToolTip.Tip="Increasing the number of threads for file downloads can enhance speed but will also lead to higher resource usage on the computer. (Min: 1, Max: 64)" Height="32" Grid.Column="2">
+					<fluentIcons:SymbolIcon Symbol="Info" FontSize="16" Grid.Column="2" />
+				</Button>
 			</Grid>
-			<!-- Save Location -->
+			<!-- Minimum Write Size -->
 			<Grid Grid.Row="3" Margin="0 15">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="70" />
+					<ColumnDefinition Width="80" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="40" />
+				</Grid.ColumnDefinitions>
+				<Label Content="Write Size:" VerticalAlignment="Center"/>
+				<NumericUpDown Value="{Binding MinWriteSize}" Minimum="1" Maximum="8192" Increment="1" Grid.Column="1" />
+				<Button ToolTip.Tip="Set a minimum write size limit in KB. It can reduce the frequency of write operations, but it may increase the risk of data loss in the event of a disconnection. (Min: 1, Max: 8192)" Height="32" Grid.Column="2">
+					<fluentIcons:SymbolIcon Symbol="Info" FontSize="16" Grid.Column="2" />
+				</Button>
+			</Grid>
+			<!-- Save Location -->
+			<Grid Grid.Row="4">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="80" />
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="40"/>
 				</Grid.ColumnDefinitions>
@@ -73,7 +89,7 @@
 				</Button>
 			</Grid>
 			<!-- Start -->
-			<Grid Grid.Row="4" Width="335">
+			<Grid Grid.Row="5" Width="335" Margin="0 15 0 0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="255" />
 					<ColumnDefinition Width="auto"/>

@@ -12,7 +12,6 @@ internal class DataStream(InProgressDownloadModel inProgressDownloadModel, Downl
     public async Task Start()
     {
         using var client = new HttpClient();
-        var writeManagerTask = Task.Run(() => _segmentWriter.WriteManagerAsync());
         var streamTasks = new Task[_config.NumberOfThreads];
         try
         {
@@ -20,7 +19,7 @@ internal class DataStream(InProgressDownloadModel inProgressDownloadModel, Downl
             {
                 var start = i * _config.SegmentSize;
                 var end = _config.NumberOfThreads - 1 == i ? _inProgressDownloadModel.DownloadSize - 1 : start + _config.SegmentSize - 1;
-                streamTasks[i] = StreamSegmentAsync(client, start, end);
+                streamTasks[i] = StreamSegmentAsync(client, start, end, i);
             }
             await Task.WhenAll(streamTasks);
         }
@@ -29,11 +28,9 @@ internal class DataStream(InProgressDownloadModel inProgressDownloadModel, Downl
             if (!_cts.Token.IsCancellationRequested)
                 _cts.Cancel();
         }
-        await writeManagerTask;
-
     }
 
-    private async Task StreamSegmentAsync(HttpClient client, long start, long end)
+    private async Task StreamSegmentAsync(HttpClient client, long start, long end, int index)
     {
         using var request = new HttpRequestMessage(HttpMethod.Get, _inProgressDownloadModel.URI.AbsoluteUri);
         request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(start, end);
@@ -44,7 +41,7 @@ internal class DataStream(InProgressDownloadModel inProgressDownloadModel, Downl
         var buffer = new byte[_config.BufferSize];
         while ((bytesRead = await responseStream.ReadAsync(buffer, _cts.Token)) > 0)
         {
-            _segmentWriter.AddBuffer((byte[])buffer.Clone(), start, bytesRead);
+            _segmentWriter.AddBuffer((byte[])buffer.Clone(), start, bytesRead, index);
             _inProgressDownloadModel.StreamedSize += bytesRead;
             start += bytesRead;
         }
